@@ -1,32 +1,50 @@
-console.log(moment().format());
-console.log(moment().format("hA"))
+function hourUpdater() { // get current number of hours 
+  var currentHour = moment().hours();
 
-// TODO Create one row with time,  text area and button using JQ.
+  // loop over time blocks
+  $(".time-block").each(function () {
+    var blockHour = parseInt($(this).attr("id").split("-")[1]);
 
+    // check if we've moved past this time
+    if (blockHour < currentHour) {
+      $(this).addClass("past");
+    } else if (blockHour === currentHour) {
+      $(this).removeClass("past");
+      $(this).addClass("present");
+    } else {
+      $(this).removeClass("past");
+      $(this).removeClass("present");
+      $(this).addClass("future");
+    }
+  });
 
-// layout for time schedule includes time text area and save button
-{/* <div class="container">
-<div class="row time-block">
-<div class="col-md-2 hour">
-  9am
-</div>
-<!-- text area -->
-<textarea class="col-md-8"></textarea>
-<!-- save button -->
-<button class="saveBtn col-md-2">Save</button>
-</div>
-</div> */}
+}
 
-// show the time on top of the calendar using moment. js grab the time and se the text of the p tag with the id of currenDay to be our time from moment.js
+hourUpdater();
 
-//  TODO create an array to hold the hours that i need ["9am","10am"]
+$(document).ready(function () {
+      // listen for save button clicks 
+      $(".saveBtn").on("click", function () {
+        // get nearby values 
+        var value = $(this).siblings(".description").val();
+        var time = $(this).parent().attr("id");
 
-// TODO USING A FOR LOOP
+        // save in localStorage
+        localStorage.setItem(time, value);
 
-// TODO LOOP OVER MY ARRAY OF HOURS AND CREATE A DIV FOR ROW, CREATE A DIV FOR HOURS, TEXTAREA AND A BUTTON
+      });
+      $("#hour-9 .description").val(localStorage.getItem("hour-9"));
+      $("#hour-10 .description").val(localStorage.getItem("hour-10"));
+      $("#hour-11 .description").val(localStorage.getItem("hour-11"));
+      $("#hour-12 .description").val(localStorage.getItem("hour-12"));
+      $("#hour-13 .description").val(localStorage.getItem("hour-13"));
+      $("#hour-14 .description").val(localStorage.getItem("hour-14"));
+      $("#hour-15 .description").val(localStorage.getItem("hour-15"));
+      $("#hour-16 .description").val(localStorage.getItem("hour-16"));
+      $("#hour-17 .description").val(localStorage.getItem("hour-17"));
+    })
 
-// TODO GIVE THE ELEMENTS SOME CONTENT
+    const m = moment();
+    var currentDay = (m.format("dddd MMM DD YYYY"));
 
-// TODO HOW CAN I COMPARE THE HOURS OF MY ROWS, TO THE CURRENT TIME? USE MOEMENY.JS GET THE CURRENT TIME AND COMPARE TOT THE TIME THAT IS BEING ASSINGED TO THE ROW
-
-//  TODO
+    $("#currentDay").prepend(currentDay)
